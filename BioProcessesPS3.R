@@ -1,7 +1,7 @@
 # Biological Processes 2018
 # In Class Assignment PS3
 
-setwd("~/github/BEE6740Ecohydrology")
+setwd("~/github/Biological_Processes")
 
 Q = 10^8 # L/d
 S_o = 200 # mg BOD/L
