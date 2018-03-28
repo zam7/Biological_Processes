@@ -21,14 +21,14 @@ Xi_o = (1-fd_o)*Xv_o # mg incalcitrant VSS/L
 btheta = b*theta_array # unitless
 fg = 1-fd_o
 
-#Qw_Xvw_mgperd = Q*(Xi_o + Y*(S_o-K*((1+b*theta_array)/(Y*q_hat*theta_array - (1+b*theta_array))))
-           # * (1+(1-fd)*b*theta_array)/(1+b*theta_array)) # mg VSS/day
+Qw_Xvw_mgperd = Q*(Xi_o + Y*(S_o-K*((1+b*theta_array)/(Y*q_hat*theta_array - (1+b*theta_array))))
+            * (1+(1-fd)*b*theta_array)/(1+b*theta_array)) # mg VSS/day
 
-fun = 1+(b*theta_array)
-term1 = 1+((1-fd_o)*(b*theta_array)/(fun))
-term2 = S_o - ((K*fun)/((Y*q_hat*theta_array)-(fun)))
-combo = Q*(Xi_o + (Y*term1*term2))
-Qw_Xvw_kgperd = combo / 1000000 # kg VSS/day
+#fun = 1+(b*theta_array)
+#term1 = 1+((1-fd_o)*(b*theta_array)/(fun))
+#term2 = S_o - ((K*fun)/((Y*q_hat*theta_array)-(fun)))
+#combo = Q*(Xi_o + (Y*term1*term2))
+Qw_Xvw_kgperd = Qw_Xvw_mgperd / 1000000 # kg VSS/day
 
 Qw_Xaw_mgperd = fd*Q*Y*(1/(1+btheta))*(S_o - K*(1+btheta)/(Y*q_hat*theta_array - (1+btheta)))
 Qw_Xaw_kgperd = Qw_Xaw_mgperd / 1000000 # kg VSS/day
@@ -36,8 +36,6 @@ Qw_Xaw_kgperd = Qw_Xaw_mgperd / 1000000 # kg VSS/day
 
 plot(theta_array, Qw_Xvw_kgperd, xlab = "theta (days)", ylab = "biomass wasted (kg/day)", main = "kg biomass wasted per day as a function of solids retention time")
 points(theta_array, Qw_Xaw_kgperd, pch = 17)
-legend( x= "right", y=0.92, 
+legend( x= "right", y=0.92,
         legend=c("Xv in waste","Xa in waste"),
         pch=c(21, 17))
-
-
