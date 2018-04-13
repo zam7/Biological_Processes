@@ -24,8 +24,8 @@ H = ((Kg * np.log((S0+r*Se)/(Se*(1+r))))+(((S0-Se)/(1+r))))*(Q*(1+r))/(P*alpha*A
 print(H)
 
 # Part c) BOD loading
-SL = (Q*S0)/(A*H)
-print(SL)
+SL = (Q*S0)/(A*H).to(u.mg/(u.day*u.L))
+print(SL.to(u.kg/(u.day*u.m**3)))
 
 # Part d) Kg as a function of Q
 Q_range = np.linspace(10**4 * u.L/u.s, 10**7 * u.L/u.s, num = 30)
@@ -37,9 +37,33 @@ plt.suptitle('Kg as a function of Q', fontsize=18)
 plt.savefig('Kg_Q.png')
 plt.show()
 
+
 # Part e) Optimum recycle ratio to achieve minimum Se
-## NEED TO DO
+# create a vector of recycle ratios, from almost 0 to 1
+r_vary = np.linspace(0.001, 60, 100)
+
+def Se(r, S0, Q, A, P, alpha, H):
+  """Calculate effluent concentration in a trickling filter."""
+  Se = S0
+  Kg = (50 + 1000 * 10**(-0.000055*(Q*(1+r)/A)))
+  diff = Kg * np.log((S0 + r*Se)/(Se*(1+r))) + ((S0 - Se)/(1+r)) - (P*alpha*A*H)/(Q*(1+r))
+  while diff<0:
+      diff = Kg * np.log((S0 + r*Se)/(Se*(1+r))) + ((S0 - Se)/(1+r)) - (P*alpha*A*H)/(Q*(1+r))
+      Se = Se - 0.01
+  return Se
+
+Se_vary = np.zeros(len(r_vary))
+for i in range(0, len(r_vary)):
+  Se_vary[i] = Se(r_vary[i], S0.magnitude, Q_test, A.magnitude, P.magnitude, alpha.magnitude, H.magnitude)
+
+plt.plot(r_vary, Se_vary)
+plt.xlabel('Recycle Ratio, r', fontsize=14)
+plt.ylabel('Effluent Concentration, Se (mg/L)', fontsize=14)
+plt.savefig('Se_by_r.png')
+plt.show()
+
 ```
+![](./Se_by_r.png)
 ---------------------------
 
 $$ HL = \frac{Q+Q_r}{A} $$
@@ -95,85 +119,19 @@ anaerobic_S_min = S_min(K_ACP, Y_ACP, q_hat_ACP, b_ACP)
 print(aerobic_S_min)
 print(anaerobic_S_min)
 
-```
+#d)
+def r(Se, S0, Q, A, P, alpha, H):
+  """Calculate effluent concentration in a trickling filter."""
+  r = 3
+  Kg = (50 + 1000 * 10**(-0.000055*(Q*(1+r)/A)))
+  diff = Kg * np.log((S0 + r*Se)/(Se*(1+r))) + ((S0 - Se)/(1+r)) - (P*alpha*A*H)/(Q*(1+r))
+  while diff<0:
+      Kg = (50 + 1000 * 10**(-0.000055*(Q*(1+r)/A)))
+      diff = Kg * np.log((S0 + r*Se)/(Se*(1+r))) + ((S0 - Se)/(1+r)) - (P*alpha*A*H)/(Q*(1+r))
+      r = r - 0.001
+  return r
 
----------------------------
-```Python
-def Kg(Q, r, A):
-  """Return the Kg coefficient for trickling filter reactor performance.
-
-  Parameters
-  ----------
-  Q: float
-    reactor flow rate
-
-  r: float
-    recycle ratio
-
-  A: float
-    reactor plan view area
-
-  Returns
-  -------
-  Kg: float
-    treatment coefficient
-
-  Examples
-  --------
-  >>> from aide_design.play import *
-  >>> Kg(8 * 10**6 * u.L/u.s, 2.0, 1111 meter**2)
-  114.9 milligram / liter
-  """
-  return (50 + 1000 * 10**(-0.000055*(Q*(1+r)/A).magnitude))*(u.mg/u.L)
-
-
-def effluent_conc_BOD(Q, r, S0, P, alpha, A, H):
-  """Return the effluent BOD concentration in a trickling filter with recycle.
-
-  Parameters
-  ----------
-  Q: float
-    reactor flow rate
-
-  r: float
-    recycle ratio
-
-  S0: float
-    influent BOD concentration
-
-  P: float
-    capacity factor
-
-  alpha: float
-    specific surface area
-
-  A: float
-    reactor plan view area
-
-  H: float:
-    reactor height
-
-  Returns
-  -------
-  Se: float
-    effluent BOD concentration
-
-  Examples
-  --------
-  >>> from aide_design.play import *
-  >
-
-  """
-
-
-  Se_bound1 = 0
-  Se_bound2 = S0
-
-  def _Se(Se):
-    return (((Kg(Q, r, A) * np.log((S0+r*Se)/(Se*(1+r))))+(((S0-Se)/(1+r))))*(Q*(1+r))/(P*alpha*A*H))
-  root = optimize.ridder(_Se, Se_bound1, Se_bound2)
-  return root
-
-effluent_conc_BOD(Q, r, S0, P, alpha, A, H)
+S_target = 30 * u.mg/u.L
+print(r(S_target.magnitude, S0_BOD.magnitude, Q_test, A.magnitude, P.magnitude, alpha.magnitude, H.magnitude))
 
 ```
