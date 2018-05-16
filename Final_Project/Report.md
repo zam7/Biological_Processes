@@ -28,9 +28,33 @@ Determine overall growth reaction for heterotrophs and nitrifier using fe and fs
 Ue delta G value which are more thermodynamically favorable.
 
 ---------------------
+
+#### Definition of variables
+$ \Delta G^{o'}$: Gibbs Standard Free Energy Equation at pH = 7.0
+$ R_e $: Energy reaction
+$ R_s $: Synthesis reaction
+$ f_e^o $: Theoretical fraction of electrons allocated to energy metabolism
+$ f_s^o $: Theoretical fraction of electrons allocated to cell synthesis
+$ f_e $
+$ f_s $
+$ A $: Number of electron equivalents of electon donor converted to energy per electron of cells synthsized
+$ \Delta G_p $
+$ \Delta G_{pc} $
+$ \Delta G_r $
+$ \epsilon $
+$ n $
+$ f_d $
+$ b $
+$ \theta_x^{min} $
+$ \theta_x^{design} $
+$ SF $
+$ correction $
+
+
+---------------------
 #### Aerobic Heterotrophs:
 
-Electron donor: $ \frac{1}{50}C_{10}H_{19}O_{3}N $
+Electron donor: $ C_{10}H_{19}O_{3}N $
 Electron acceptor: $ O_2 $
 Nitrogen source: $ NH_4^+ $
 
@@ -46,7 +70,7 @@ $ \frac{1}{4}O_2 + H^+ + e^-= \frac{1}{2}H_2O $
 where $ \Delta G^{o'} = -78.72 \frac{KJ}{e^-eq}$
 
 ##### Total energy equation, $R_e$:
-$ \frac{1}{50}C_{10}H_{19}O_{3}N +\frac{1}{4}O_2 = \frac{9}{50}CO_2 + \frac{1}{50}NH_4^+ + \frac{1}{50}HCO_3^- + \frac{7}{50}H_2O$
+$ \frac{1}{50}C_{10}H_{19}O_{3}N +\frac{1}{4}O_2 = \frac{9}{50}CO_2 + \frac{1}{50}NH_4^+ + \frac{1}{50}HCO_3^- + \frac{7}{50}H_2O $
 
 where $ \Delta G^{o'} = -110.52 \frac{KJ}{e^-eq}$
 
@@ -61,6 +85,45 @@ $ \frac{1}{5}CO_2 + \frac{1}{20}HCO_3^- + \frac{1}{20}NH_4^+ + H^+ + e^- = \frac
 
 ##### Total synthesis equation, $R_s$:
 $ \frac{1}{50}C_{10}H_{19}O_{3}N + \frac{2}{100}CO_2 + \frac{3}{100}HCO_3^- + \frac{3}{100}NH_4^+= \frac{1}{20}C_5H_7O_2N + \frac{9}{100}H_2O$
+
+#####Calculation of $f_e$ and $f_s$
+$ A = \frac{-(\frac{\Delta G_p}{\epsilon^n} + \frac{\Delta G_{pc}}{\epsilon})}{\epsilon \Delta G_r} $
+
+$ \Delta G_r  = \Delta G_{R_e} = -110.52 \frac{KJ}{e^-eq} $
+$ \Delta G_p  = \Delta G_{pyruvate} - \Delta G_{C-source} = (35.09-31.8)\frac{KJ}{e^-eq} = 3.29 \frac{KJ}{e^-eq} $
+$ \Delta G_p > 0  ∴  n=1 $
+$ \Delta G_{pc} = 18.8 \frac{KJ}{e^-eq} $
+$ \epsilon ≈ 0.6 $
+
+$ A_{heterotroph} = 0.555 $
+$ f_s^o  = \frac{1}{1+A} = 0.643 $
+$ f_e^o  = 1-f_s^o = 0.357 $
+
+Correction factor to account for aerobic heterotroph cell decay = $ \frac{1+(1-f_d)(b \theta_x)}{1+b \theta_x} $
+
+Page 309, Rittman and McCarty
+$ f_d = 0.8 $
+$ b = 0.15 \frac{1}{day} $
+$ \theta_x^{min} = 2.8 $ days, chosen from $ \theta_x^{min}$ for ammonium oxidizers at $10^o C $, page 472, Rittman and McCarty
+$ SF = 2 $
+$ \theta_x^{design} = 5.6 $ days
+
+$ correction = 0.635 $
+$ f_s = correction*f_s^o  = 0.408 $
+$ f_e = 1-f_s  = 0.591 $
+
+##### Total reaction equation, R
+Only taking into account $O_2$, $C_{10}H_{19}O_{3}N$, $NH_4^+$, and $C_5H_7O_2N$:
+
+$ f_sR_s:  0.00816C_{10}H_{19}O_{3}N + 0.01224NH_4^+= 0.0204C_5H_7O_2N $
+$ f_eR_e: 0.01182C_{10}H_{19}O_{3}N + 0.14775O_2 = 0.01182NH_4^+  $
+
+$ R: 0.01998C_{10}H_{19}O_{3}N + 0.14775O_2 + 0.00042NH_4^+ = 0.0204C_5H_7O_2N $
+
+From this equation for heterotrophic metabolism and cell synthesis, 0.14775 $mol O_2$ is required for 1 $e^-eq$.
+
+##### Expected yield
+$ Y = \frac{biomass_{mass}}{e^-donor_{mass}} $
 
 ---------------------
 ####Aerobic nitrifiers:
