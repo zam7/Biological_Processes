@@ -138,12 +138,14 @@ $ \frac{1}{8}NH_4^+ + \frac{3}{8}H_2O = \frac{1}{8}NO_3^- + \frac{5}{4}H^+ + e^-
 where $ \Delta G^{o'} = 35.11 \frac{KJ}{e^-eq}$
 
 ######Half-reaction for reduction of oxygen:
-$ \frac{1}{4}O_2 + H^+ + e^-= \frac{1}{2}H_2O $
+$ \frac{1}{4}O_2 + H^+ + e^- = \frac{1}{2}H_2O $
 
-where $ \Delta G^{o'} = -78.72 \frac{KJ}{e^-eq}$
+where $ \Delta G^{o'} = -78.72 \frac{KJ}{e^-eq} $
 
 ##### Total energy equation, $R_e$:
 $ \frac{1}{8}NH_4^+ + \frac{1}{4}O_2  = \frac{1}{8}NO_3^- + \frac{1}{4}H^+ + \frac{1}{8}H_2O$
+
+where $ \Delta G^{o'} = -43.61 \frac{KJ}{e^-eq} $
 
 #####Cell synthesis equation:
 ######Half-reaction for reduction of ammonium:
@@ -160,7 +162,7 @@ $ \frac{1}{5}CO_2 + \frac{1}{20}HCO_3^- + \frac{7}{40}NH_4^+   = \frac{1}{20}C_5
 ---------------------
 
 4. Determine relevant biomass yield and oxygen requirement equations for nitrifiers (stoichiometry).
-5. Use \delta G values to analyze the likelihood of oxygen being used by heterotroph or nitrifier.
+5. Use $\Delta G$ values to analyze the likelihood of oxygen being used by heterotroph or nitrifier.
 6. Set a criteria for minimum nitrification treatment and determine what level of DO is needed to ensure that nitrification happens.
 7. Use that to determine the maximum influent BOD.
 
